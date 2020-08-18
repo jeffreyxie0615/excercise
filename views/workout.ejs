@@ -1,0 +1,62 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exercise Routines | <%= title %></title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        
+        <nav>
+            <div class="site-title">
+                <a href="/"><h1>Workout</h1></a>
+                <p>Add Workout</p>
+            </div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/addworkout">Add Workout</a></li>
+                <li><a href="/addmeal">Add Meal</a></li>
+                <li><a href="/create">New Date Entry</a></li>
+            </ul>
+        </nav>
+        <img src=https://previews.123rf.com/images/corazonphoto/corazonphoto0904/corazonphoto090400155/4654132-weights-and-free-weights-in-a-gym.jpg
+        width=400 height=300 style="float: right;">
+        <div class="create-workout content">
+            <form action="/home" method="POST">
+                <label for="workout">New Workout: </label>
+                <input type="text" id="workout" name="workout">
+                <a class="addField" >Add Field</a>
+                <a class="submit2">Submit</a>
+            </form>
+        </div>
+        <script>
+            const sendUpdate=document.querySelector("a.submit2");
+            sendUpdate.addEventListener("click",(e)=>{
+                const myArr=document.getElementsByName("workout");
+                const newArr=[];
+                myArr.forEach((val)=>{
+                    newArr.push(val.value);
+                });
+                fetch('/home', {headers: {'Content-type':'application/json'}, method: 'PUT', body: JSON.stringify(newArr)})
+                .then((result)=>
+                    result.json()
+                ).then((data)=>{
+                    window.location.href=data.redirect;
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            })
+            //Add additional boxes for submissions
+            const addNewField=document.querySelector("a.addField");
+            addNewField.addEventListener("click", (e)=>{
+                console.log('eee');
+                const elements=
+                '<div class="create-workout content"><label for="workout">New Workout: </label><input type="text" id="workout" name="workout"/></div>'
+                var firstBox=document.getElementById("workout");
+                firstBox.insertAdjacentHTML('afterend',elements);
+            })
+        </script>
+    </body>
+</html>

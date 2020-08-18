@@ -1,0 +1,74 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exercise Routines | <%=title%></title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        <h1 style="text-decoration: none;">Welcome To My Home Workout Website!</h1>
+        <nav>
+            <div class="site-title">
+                <a href="/" style="text-decoration: none;"><h1>Workout</h1></a>
+                
+            </div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/addworkout">Add Workout</a></li>
+                <li><a href="/addmeal">Add Meal</a></li>
+                <li><a href="/create">New Date Entry</a></li>
+            </ul>
+        </nav>
+        <div class="organize"></div>
+            
+            <div class="logs">
+                <h2>Track Your Progress For: <%=currentDate%></h2>
+                <% if(entry!=null&&entry.exercise!=null&&entry.exercise.length>0){ %>
+                <% entry.exercise.forEach((indWork)=>{ %>
+                    <p><%=indWork%></p>
+                <%})%>
+                <%}else{%>
+                    <h3>You Don't Have Any Exercise Entries Yet For <%=currentDate%> :(</h3>
+                <%}%>
+            </div>
+            <div class="meal-logs">
+                <% if(entry!=null&&entry.exercise!=null&&entry.meal.length>0){ %>
+                <% entry.meal.forEach((indWork)=>{ %>
+                    <p><%=indWork%></p>
+                <%})%>
+                <%}else{%>
+                    <h3>You Don't Have Any Meal Entries Yet For <%=currentDate%> :(</h3>
+
+                <%}%>
+            </div>
+            <div class="change-date content">
+                <form action='/' method="GET">
+                    <label for="changeDate">Access Logs From A Different Date</label>
+                    <input id="changeDate" type="date" name="date">
+                    <a class="submit">Submit</a>
+                </form>
+            </div>
+        </div>
+        
+    </body>
+    <footer>
+        <p>Copyright &copy; Jeffrey Xie 2020</p>
+    </footer>
+    <script>
+        const changeDate=document.querySelector("a.submit");
+        changeDate.addEventListener("click",(e)=>{
+            const endpoint='/home/'+document.getElementsByName("date")[0].value;
+            console.log(endpoint);
+            
+            fetch(endpoint,{method: 'GET'})
+            .then(result=>
+                result.json()
+            ).then(data=>{
+                window.location.href=data.redirect;
+            }).catch(err=>{
+                console.log(err);
+            })
+        })
+    </script>
+</html>

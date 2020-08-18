@@ -1,0 +1,63 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exercise Routines | <%= title %></title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        
+        <nav>
+            <div class="site-title">
+                <a href="/"><h1>Workout</h1></a>
+                <p>Add Meal</p>
+            </div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/addworkout">Add Workout</a></li>
+                <li><a href="/addmeal">Add Meal</a></li>
+                <li><a href="/create">New Date Entry</a></li>
+            </ul>
+        </nav>
+        <img src=https://us.123rf.com/450wm/fahrwasser/fahrwasser1901/fahrwasser190100061/114550942-healthy-meal-prep-containers-with-chicken-rice-and-vegetables.jpg?ver=6
+        width=400 height=300 style="float: right;">
+        <div class="create-meal content">
+            <form action="/home2" method="POST">
+                <label for="meal">New Meal: </label>
+                <input type="text" id="meal" name="meal">
+                <a class="addField" >Add Field</a>
+                <a class="submit2">Submit</a>
+            </form>
+        </div>
+        <script>
+            const sendUpdate2=document.querySelector("a.submit2");
+            sendUpdate2.addEventListener("click",(e)=>{
+                const myArr=document.getElementsByName("meal");
+                const newArr=[];
+                console.log('clicked');
+                myArr.forEach((val)=>{
+                    newArr.push(val.value);
+                });
+                console.log('newArr[0]');
+                fetch('/home2', {headers: {'Content-type':'application/json'}, method: 'PUT', body: JSON.stringify(newArr)})
+                .then((result)=>
+                    result.json()
+                ).then((data)=>{
+                    window.location.href=data.redirect;
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            })
+            //Add additional boxes for submissions
+            const addNewField=document.querySelector("a.addField");
+            addNewField.addEventListener("click", (e)=>{
+                const elements=
+                '<div class="create-meal content"><label for="meal">New Meal: </label><input type="text" id="meal" name="meal"/></div>'
+                var firstBox=document.getElementById("meal");
+                firstBox.insertAdjacentHTML('afterend',elements);
+            })
+        </script>
+    </body>
+</html>
